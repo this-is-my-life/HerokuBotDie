@@ -50,4 +50,7 @@ client.on('message', (message) => {
       message.channel.send('찻봇다이')
     })
   }
+  if (message.content === '봇다이다이') {
+    message.channel.send('뒤질?')
+  }
 })
