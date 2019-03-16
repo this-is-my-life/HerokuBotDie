@@ -1,0 +1,1 @@
+worker: node diebot.js
