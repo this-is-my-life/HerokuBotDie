@@ -4,11 +4,11 @@ const Heroku = require('heroku-client')
 const heroku = new Heroku({ token: process.env.HEROKU_API_TOKEN })
 client.login(process.env.Token)
 let result
-let die = ['좋은일하다 죽었음.', '갑분뒤짐', '내 죽음을 알리지말라...']
-let live = ['ㄴㄴ, 살아있음', '살아있단깨 나는잘 살아있당께', '나는 살아있다!!!!']
+let live = ['ㄴㄴ, 살아있음', '히 어라이브!', '말을 걸어보면 알겠지', '님 읽씹당한거임, 난 잘됨', '응~ 나는되', 'Expected working: Working good on CORE.js 1:0']
+let die = ['노동하다 죽었음.', '다이.', '방해금지 킨거임', '우리 읽씹하고있음 함무라비 법전을 따라야함', '방해전파 때문에 봇다이', 'Unexpected Error: Working Bad on die.js 6:66']
 
 client.on('message', (message) => {
-  result = Math.floor(Math.random() * 3) + 1
+  result = Math.floor(Math.random() * live.length) + 1
 
   if (message.author === client.user) return
   if (message.content === '뮤다이') {
