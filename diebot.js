@@ -11,6 +11,17 @@ let die = ['노동하다 죽었음.', '다이.', '방해금지 킨거임', '우�
 client.on('message', (message) => {
   if (message.content === '봇다이') {
     dieDetail(message)
+  } if (message.content.split(' ')[0] === 'heroku' && message.content.split(' ')[1]) {
+    message.channel.send('wait...').then((msg) => {
+      heroku.get(message.content.split(' ')[1]).then((result) => {
+        msg.edit('```json\n' + JSON.stringify(result).substring(0, 1500) + '\n```')
+        if (JSON.stringify(result).length >= 1500) {
+          message.channel.send('... Can\'t see more')
+        }
+      }).catch((err) => {
+        msg.edit('```json\n' + JSON.stringify(err) + '\n```')
+      })
+    })
   } else {
     dieChecker(message)
   }
@@ -66,7 +77,6 @@ function dieChecker (message) {
   if (message.author === client.user) return
   if (message.content.split(' ')[0] === '뮤다이') {
     heroku.get('/apps/mubotapi/dynos/worker.1').then((dyno) => {
-      console.log(dyno)
       if (dyno.state === 'up') {
         message.channel.send(live[result])
       } else {
@@ -119,5 +129,37 @@ function dieChecker (message) {
   }
   if (message.content.split(' ')[0] === '봇다이다이') {
     message.channel.send('죽을래?')
+  }
+  if (message.content.split(' ')[0] === '뮤리붓') {
+    if (JSON.parse(process.env.owners).includes(message.author.id)) {
+      heroku.delete('/apps/mubotapi/dynos')
+      message.channel.send('처리완료')
+    } else {
+      message.channel.send('에러: 승인되지 않은 사용자!')
+    }
+  }
+  if (message.content.split(' ')[0] === 'cq리붓') {
+    if (JSON.parse(process.env.owners).includes(message.author.id)) {
+      heroku.delete('/apps/codequizapi/dynos')
+      message.channel.send('처리완료')
+    } else {
+      message.channel.send('에러: 승인되지 않은 사용자!')
+    }
+  }
+  if (message.content.split(' ')[0] === '카텐리붓') {
+    if (JSON.parse(process.env.owners).includes(message.author.id)) {
+      heroku.delete('/apps/keeptypingandnobodyexplodes/dynos')
+      message.channel.send('처리완료')
+    } else {
+      message.channel.send('에러: 승인되지 않은 사용자!')
+    }
+  }
+  if (message.content.split(' ')[0] === '찻봇리붓') {
+    if (JSON.parse(process.env.owners).includes(message.author.id)) {
+      heroku.delete('/apps/chartbotapi/dynos')
+      message.channel.send('처리완료')
+    } else {
+      message.channel.send('에러: 승인되지 않은 사용자!')
+    }
   }
 }
