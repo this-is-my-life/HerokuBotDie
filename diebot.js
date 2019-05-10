@@ -6,13 +6,16 @@ const heroku2 = new Heroku({ token: process.env.HEROKU_API_TOKEN2 })
 const heroku3 = new Heroku({ token: process.env.HEROKU_API_TOKEN3 })
 client.login(process.env.Token)
 let result
-let apis = ['mubotapi', 'codequizapi', 'keeptypingandnobodyexplodes', 'chartbotapi', 'discord-noeul', 'mubetaapi', 'muzicbetaapi', 'janggokbotapi']
+let apis = ['mubotapi', 'codequizapi', 'keeptypingandnobodyexplodes', 'chartbotapi', 'discord-noeul', 'mubetaapi', 'janggokbotapi', 'muzicbetaapi']
 let herokuNo = [0, 0, 0, 0, 1, 2, 2, 2]
+let discordID = ['532801455187558420', '540362373634981889', '537627713079345164', '538633650070224916', '546639768839127050', '553150656161251328', '560779140375117826']
 let live = ['ㄴㄴ, 살아있음', '히 어라이브!', '말을 걸어보면 알겠지', '님 읽씹당한거임, 난 잘됨', '응~ 나는되', 'Expected working: Working good on CORE.js 1:0']
 let die = ['노동하다 죽었음.', '다이.', '방해금지 킨거임', '우리 읽씹하고있음 함무라비 법전을 따라야함', '방해전파 때문에 봇다이', 'Unexpected Error: Working Bad on die.js 6:66']
 
 client.on('message', (message) => {
-  if (message.content === '봇다이') {
+  if (message.content === '봇다이' || message.content === '봇다이 라이트스켄') {
+    dielight(message)
+  } else if (message.content === '봇다이 딥스켄') {
     dieDetail(message)
   } else if (message.content.split(' ')[0] === 'heroku' && message.content.split(' ')[1]) {
     message.channel.send('wait...').then((msg) => {
@@ -52,6 +55,17 @@ client.on('message', (message) => {
   }
 })
 
+async function dielight (message) {
+  message.channel.send('라이트 스켄은 실제와 다를수 있으니 \'봇다이 딥스켄\'을 사용하는것을 추천드립니다')
+  discordID.forEach((v, i) => {
+    if (client.users.get(v).presence.status === 'online') {
+      message.channel.send(apis[i] + ': ⭕')
+    } else {
+      message.channel.send(apis[i] + ': ❌')
+    }
+  })
+}
+
 async function dieDetail (message) {
   let ment1 = '==== Process has Started ===='
   let ment2 = ['Waiting for request..\n']
@@ -84,10 +98,10 @@ async function dieDetail (message) {
               .setDescription('처리결과')
             for (let counter2 = 0; counter2 < apis.length; counter2++) {
               if (result[counter2] === 'up') {
-                embed.addField(apis[counter2] + ': ' + '⭕', live[Math.floor(Math.random() * live.length) + 1])
+                embed.addField(apis[counter2] + ': ' + '⭕', live[Math.floor(Math.random() * live.length)])
                 emb.edit(embed)
               } else {
-                embed.addField(apis[counter2] + ': ' + '❌', die[Math.floor(Math.random() * die.length) + 1])
+                embed.addField(apis[counter2] + ': ' + '❌', die[Math.floor(Math.random() * die.length)])
                 emb.edit(embed)
               }
             }
